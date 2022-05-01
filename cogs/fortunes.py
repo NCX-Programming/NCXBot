@@ -54,5 +54,5 @@ class Fortunes(commands.Cog):
         response = random.choice(fortuneB)
         await ctx.send(response)
 
-def setup(bot):
-    bot.add_cog(Fortunes(bot))
+async def setup(bot):
+    await bot.add_cog(Fortunes(bot))

@@ -64,5 +64,5 @@ class Help(commands.Cog):
         embed.set_footer(text="Copyright NinjaCheetah 2021")
         await ctx.send(embed=embed)
 
-def setup(bot):
-    bot.add_cog(Help(bot))
+async def setup(bot):
+    await bot.add_cog(Help(bot))

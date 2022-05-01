@@ -1,4 +1,5 @@
 # bot.py
+import asyncio
 import discord
 from discord.ext import commands
 import json
@@ -18,12 +19,11 @@ class Bot(commands.Bot):
         ctx = await self.get_context(message)
         await self.invoke(ctx)
 
-bot = Bot(command_prefix='x!', activity=discord.Game(name="Programming | x!help", type=3))
+intents = discord.Intents.all()
+bot = Bot(command_prefix='x!', activity=discord.Game(name="Programming | x!help", type=3), intents=intents)
 bot.remove_command('help')
 
 startup_extensions = ["cogs.fortunes", "cogs.help", "cogs.management", "cogs.misc", "cogs.software", "cogs.weblinks"]
-
-bot.load_extension('jishaku')
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -77,15 +77,22 @@ async def reloadall(ctx):
             exc = '{}: {}'.format(type(e).__name__, e)
             await ctx.send(":warning: Failed to reload extension `{}`\n```\n{}\n```".format(extension, exc))
 
-@bot.event
-async def on_ready():
-    print("Bot is ready!")
-
-if __name__ == "__main__":
+async def load_extensions():
+    await bot.load_extension('jishaku')
     for extension in startup_extensions:
         try:
-            bot.load_extension(extension)
+            await bot.load_extension(extension)
         except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
-    bot.run(TOKEN)
+
+@bot.event
+async def on_ready():
+    print("Ready!")
+
+async def main():
+    async with bot:
+        await load_extensions()
+        await bot.start(TOKEN)
+
+asyncio.run(main())

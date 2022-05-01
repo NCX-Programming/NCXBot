@@ -22,5 +22,5 @@ class Weblinks(commands.Cog):
         await ctx.send('(Rick) Rolling!')
         await ctx.send('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
 
-def setup(bot):
-    bot.add_cog(Weblinks(bot))
+async def setup(bot):
+    await bot.add_cog(Weblinks(bot))

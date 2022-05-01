@@ -40,5 +40,5 @@ class Misc(commands.Cog):
         ping = (time.monotonic() - before) * 1000
         await message.edit(content=f":ping_pong: Ping:  `{int(ping)}ms`")
 
-def setup(bot):
-    bot.add_cog(Misc(bot))
+async def setup(bot):
+    await bot.add_cog(Misc(bot))

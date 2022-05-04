@@ -1,4 +1,18 @@
-# management.py
+# NCXBot "management.py"
+# Copyright (C) 2022  NinjaCheetah
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import random
 import discord
 from discord.ext import commands
@@ -6,7 +20,7 @@ from discord.utils import get
 
 class Management(commands.Cog):
     """
-    Nobody will ever see this little message... shh...
+    Basic bot management, stuff like the status.
     """
     def __init__(self, bot):
         self.bot = bot
@@ -51,19 +65,10 @@ class Management(commands.Cog):
         status_string = ""
         for i in range(num_words):
             status_string += str(random.choice(status_word_list)).strip()+" "
+        status_string = status_string[:len(status_string)-1]
         activity = discord.Game(name=status_string, type=3)
         await self.bot.change_presence(activity=activity)
         await ctx.send(":white_check_mark: Set status to: `" + status_string + "`")
-
-    @commands.command(name="about")
-    async def about(self, ctx):
-        embed=discord.Embed(title="NCX Offical Bot", color=0x000000)
-        embed.set_author(name="About")
-        embed.add_field(name=":computer: Host:", value="Raspberry Pi 3B", inline=True)
-        embed.add_field(name="Creator:", value="NinjaCheetah", inline=True)
-        embed.add_field(name=":snake: Python version:", value="3.9.10", inline=True)
-        embed.add_field(name="Bot version:", value="v0.2", inline=True)
-        await ctx.send(embed=embed)
 
     @commands.command(pass_context=True)
     async def servers(self, ctx):

@@ -1,9 +1,22 @@
-# bot.py
+# NCXBot "bot.py"
+# Copyright (C) 2022  NinjaCheetah
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import asyncio
 import discord
 from discord.ext import commands
 import json
-from discord.utils import get
 
 with open('config.json', 'r') as f:
     config = json.load(f)
@@ -44,7 +57,7 @@ async def on_command_error(ctx, error):
 @commands.is_owner()
 async def load(ctx, extension):
     try:
-        bot.load_extension(f'cogs.{extension}')
+        await bot.load_extension(f'cogs.{extension}')
         await ctx.send(":white_check_mark: Loaded `cogs."+extension+"`")
     except Exception as e:
         exc = '{}: {}'.format(type(e).__name__, e)
@@ -53,14 +66,14 @@ async def load(ctx, extension):
 @bot.command(name='unload', help='Unloads an extension.')
 @commands.is_owner()
 async def unload(ctx, extension):
-    bot.unload_extension(f'cogs.{extension}')
+    await bot.unload_extension(f'cogs.{extension}')
     await ctx.send(":white_check_mark: Unloaded `cogs."+extension+"`")
 
 @bot.command(name='reload', help='Reloads an extension.')
 @commands.is_owner()
 async def reload(ctx, extension):
     try:
-        bot.reload_extension(f'cogs.{extension}')
+        await bot.reload_extension(f'cogs.{extension}')
         await ctx.send(":repeat: Reloaded `cogs."+extension+"`")
     except Exception as e:
         exc = '{}: {}'.format(type(e).__name__, e)
@@ -71,7 +84,7 @@ async def reload(ctx, extension):
 async def reloadall(ctx):
     for extension in startup_extensions:
         try:
-            bot.reload_extension(extension)
+            await bot.reload_extension(extension)
             await ctx.send(":repeat: Reloaded `"+extension+"`")
         except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
